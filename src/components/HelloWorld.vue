@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import {addFn, logFn} from 'verdaccio-demo-publish'
+import {menu} from 'verdaccio-demo-publish'
 
 defineProps({
   msg: String,
@@ -11,11 +11,11 @@ const sum = ref(0)
 const content = ref('终于整理完毕了！！！')
 
 const onClickAdd = () => {
-  sum.value = addFn(3, 5)
+  sum.value = menu.addFn(3, 5)
   console.log('sum:', sum.value);
 }
 const onClickLog = () => {
-  logFn(content.value)
+  menu.logFn(content.value)
 }
 </script>
 

@@ -2,7 +2,7 @@
 import router from '@/router/index.js'
 import { asyncRoutes, constantRoutes } from '@/router/index.js'
 import { getUserData } from '@/api/user.js'
-import { getSetPermissionRoutes, filterAsyncRoutes, formatMenuAndBtn } from 'verdaccio-demo-publish'
+import { menu } from 'verdaccio-demo-publish'
 
 const states = {
   name: '',
@@ -32,7 +32,7 @@ const mutations = {
   SET_PERMISSION_ROUTES: (state, routes) => {
     state.permissionRoutes = routes
     let dNames = localStorage.getItem('menuList').split(',')
-    state.permissionRoutes = getSetPermissionRoutes(routes, constantRoutes, dNames)
+    state.permissionRoutes = menu.getSetPermissionRoutes(routes, constantRoutes, dNames)
     console.info('SET_PERMISSION_ROUTES：', constantRoutes, state.permissionRoutes)
   }
 }
@@ -54,17 +54,18 @@ const actions = {
             //   // 存储账户信息
             commit('SET_NAME', resule.name)
             // 菜单和按钮数据
-            const { menuArr, btnArr } = formatMenuAndBtn(resule.data.roles)
-            let menuList = [...new Set(menuArr)]
-            let btnList = [...new Set(btnArr)]
-            console.log('用户菜单名称列表,按钮名称列表', menuList, btnList)
-            commit('SET_PERMISSIONS', btnList)
-            localStorage.setItem('menuList', menuList)
-            localStorage.setItem('btnList', btnList)
-            localStorage.setItem('isLogin', true)
+            // const { menuArr, btnArr } = formatMenuAndBtn(resule.data.roles)
+            // let menuList = [...new Set(menuArr)]
+            // let btnList = [...new Set(btnArr)]
+            // console.log('用户菜单名称列表,按钮名称列表', menuList, btnList)
+            // commit('SET_PERMISSIONS', btnList)
+            // localStorage.setItem('menuList', menuList)
+            // localStorage.setItem('btnList', btnList)
+            // localStorage.setItem('isLogin', true)
+            const data = menu.onLocStorageMenuInfo(resule.data.roles)
             localStorage.setItem('userId', resule.data.id)
             let accessedRoutes = []
-            accessedRoutes = filterAsyncRoutes(asyncRoutes, menuList) || []
+            accessedRoutes = menu.filterAsyncRoutes(asyncRoutes, data.menuList) || []
             console.log('路由列表', accessedRoutes)
             commit('SET_ROUTES', accessedRoutes)
             commit('SET_PERMISSION_ROUTES', accessedRoutes)
@@ -96,7 +97,7 @@ const actions = {
       let dNames = localStorage.getItem('menuList').split(',')
       // 3. 路由数据 
       let accessedRoutes = []
-      accessedRoutes = filterAsyncRoutes(asyncRoutes, dNames)
+      accessedRoutes = menu.filterAsyncRoutes(asyncRoutes, dNames)
       commit('SET_ROUTES', accessedRoutes)
       console.info('final accessed routes: ', accessedRoutes)
       commit('SET_PERMISSION_ROUTES', accessedRoutes)

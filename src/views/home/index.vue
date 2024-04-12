@@ -9,6 +9,7 @@
       <div>&emsp;{{ message[item] || '' }}</div>
     </div>
   </div>
+  
  </div>
 </template>
 

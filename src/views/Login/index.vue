@@ -24,7 +24,6 @@ import { useRoute, useRouter } from 'vue-router'
 import { getUserData } from '@/api/user.js'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
-
 const store = useStore()
 const router = useRouter()
 // form

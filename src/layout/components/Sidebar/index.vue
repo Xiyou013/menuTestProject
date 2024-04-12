@@ -18,12 +18,13 @@ import SidebarItem from './SidebarItem.vue'
 
 // 模拟数据
 import { asyncRoutes, constantRoutes } from '@/router/index.js'
+import { menu } from 'verdaccio-demo-publish'
 
 const store = useStore()
 const route = useRoute()
 
 const permission_routes = computed(() => {
-  return store.getters.permissionRoutes
+  return menu.store.getters.permissionRoutes
 })
 // const sidebar = computed(() => store.getters.sidebar)
 // const isCollapse = computed(() => !sidebar.value.opened)
