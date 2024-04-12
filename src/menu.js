@@ -69,9 +69,7 @@ const filterAsyncRoutes = (routes, menuList) => {
  * @returns Array
  */
 const getSetPermissionRoutes = (routes, constantRoutes, menuList) => {
-  console.log('44444444444');
   let constantList = []
-  // let permissionRoutes = []
   constantRoutes.forEach((item) => {
     if (item.children && item.children.length > 0) {
       let tmp = menuList.filter((val) => val === item.children[0].meta.sid)
@@ -119,7 +117,19 @@ const formatMenuAndBtn = (roles) => {
   return MenuAndBtn
 }
 
-module.exports.hasPermission = hasPermission
-module.exports.filterAsyncRoutes = filterAsyncRoutes
-module.exports.getSetPermissionRoutes = getSetPermissionRoutes
-module.exports.formatMenuAndBtn = formatMenuAndBtn
+// 计算初始同步路由数量
+const getConstantRoutesSum = (routes) => {
+  let sum = 0
+  let num = 0
+  routes.forEach((item) => {
+    if (item.children && item.children.length > 0) {
+      num++
+    }
+  })
+  sum = routes.length - num + num * 2
+  return sum
+}
+
+module.exports = {
+  hasPermission, filterAsyncRoutes, getSetPermissionRoutes, formatMenuAndBtn, getConstantRoutesSum
+}

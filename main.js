@@ -1,7 +1,8 @@
-// import './src/test'
-// require('./src/test.js');
-const { addFn, logFn } = require('./src/test.js')
-const { hasPermission, filterAsyncRoutes, getSetPermissionRoutes, formatMenuAndBtn } = require('./src/menu.js')
+
+
+const menu = require('./src/index.js')
+const { hasPermission, getPermissionLabel } = require('./src/btnPermission.js')
+const { routerPermisssion } = require('./src/permission.js')
 module.exports = {
- addFn, logFn, hasPermission, filterAsyncRoutes, getSetPermissionRoutes, formatMenuAndBtn
+ menu, hasPermission, getPermissionLabel, routerPermisssion
 }
