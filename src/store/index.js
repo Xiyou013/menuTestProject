@@ -11,7 +11,7 @@ const store = createStore({
  getters
 })
 
-// export default store
-module.exports = {
- store
-}
+export { store }
+// module.exports = {
+//  store
+// }

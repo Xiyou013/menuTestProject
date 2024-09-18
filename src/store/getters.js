@@ -7,6 +7,9 @@ const getters = {
  accessedRoutes: (state) => state.menu.userInfo.accessedRoutes,
  permissionRoutes: (state) => state.menu.userInfo.permissionRoutes,
 
+ sidebar: (state) => state.menu.sidebar,
+ permissionsMenu: (state) => state.menu.permissionsMenu,
+
  // 不重要的数据
  asyncRoutes: (state) => state.menu.asyncRoutes,
  constantRoutes: (state) => state.menu.constantRoutes,
