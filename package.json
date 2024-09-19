@@ -1,7 +1,7 @@
 {
   "name": "verdaccio-demo-use",
   "private": true,
-  "version": "1.2.1",
+  "version": "1.3.1",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
@@ -13,12 +13,17 @@
     "element-plus": "^2.6.1",
     "less": "^4.2.0",
     "less-loader": "^12.2.0",
+    "menu-test-project": "^2.0.5",
     "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",
     "path": "^0.12.7",
+    "path-to-regexp": "^6.2.2",
     "scss": "^0.2.4",
-    "verdaccio-demo-publish": "^1.5.5",
+    "svg-component": "^1.1.1",
+    "svg-plugins": "^1.0.4",
+    "verdaccio-demo-publish": "^2.0.5",
     "vue": "^3.4.21",
+    "vue-i18n": "^9.13.1",
     "vue-router": "^4.3.0",
     "vue3-seamless-scroll": "^2.0.1",
     "vuex": "^4.1.0"

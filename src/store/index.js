@@ -1,8 +1,6 @@
 import { createStore } from 'vuex'
 import getters from './getters'
-import menu from './modules/menuTestTwo.js'
-// import menu from './modules/menuTest.js'
-// import menu from './modules/menu.js'
+import menu from './modules/menuTest.js'
 
 
 const store = createStore({

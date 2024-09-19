@@ -1,6 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Layout from '@/layout/index.vue'
-import NProgress from 'nprogress'
+import Layout from '@/jz-layout/index.vue'
 
 
 // 同步路由
@@ -14,25 +13,76 @@ export const constantRoutes = [
         component: () => import('@/views/home/index.vue'),
         name: 'home',
         meta: {
-          title: '首页',
+          title: 'router.home',
+          // title: '首页',
           icon: 'home',
           sid: 'home'
         }
       }
     ]
   },
+  // {
+  //   path: '/',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'test',
+  //       component: () => import('@/views/test/index.vue'),
+  //       name: 'test',
+  //       meta: {
+  //         title: '测试功能页面',
+  //         // icon: 'location',
+  //         icon: 'area',
+  //         sid: 'test'
+  //       }
+  //     }
+  //   ]
+  // },
   {
     path: '/',
     component: Layout,
     children: [
       {
-        path: 'test',
-        component: () => import('@/views/test/index.vue'),
-        name: 'test',
+        path: 'second',
+        component: () => import('@/views/SecondMenu/index.vue'),
+        name: 'second',
         meta: {
-          title: '测试功能页面',
-          icon: 'test',
-          sid: 'test'
+          title: '功能菜单二',
+          icon: 'material',
+          sid: 'second'
+        }
+      }
+    ]
+  },
+  {
+    path: '/',
+    redirect: '/test/testOne',
+    component: Layout,
+    name: 'test',
+    meta: {
+      title: '测试功能页面',
+      icon: 'area',
+      sid: 'test'
+    },
+    children: [
+      {
+        path: 'testOne',
+        component: () => import('@/views/test/index.vue'),
+        name: 'testOne',
+        meta: {
+          title: '测试页面一',
+          icon: 'area',
+          sid: 't-testOne'
+        }
+      },
+      {
+        path: 'testTwo',
+        component: () => import('@/views/test/testTwo.vue'),
+        name: 'testTwo',
+        meta: {
+          title: '测试页面二',
+          icon: 'location',
+          sid: 't-testTwo'
         }
       }
     ]
@@ -57,7 +107,7 @@ export const asyncRoutes = [
         name: 'first',
         meta: {
           title: '功能菜单一',
-          icon: 'first',
+          icon: 'location',
           sid: 'first'
         }
       }
@@ -73,7 +123,7 @@ export const asyncRoutes = [
         name: 'second',
         meta: {
           title: '功能菜单二',
-          icon: 'second',
+          icon: 'material',
           sid: 'second'
         }
       }
@@ -85,8 +135,8 @@ export const asyncRoutes = [
     component: Layout,
     name: 'third',
     meta: {
-      title: '功能菜单三',
-      icon: 'third',
+      title: 'router.third',
+      icon: 'records',
       sid: 'third'
     },
     children: [
@@ -95,8 +145,8 @@ export const asyncRoutes = [
         component: () => import('@/views/ThirdMenu/menuOne.vue'),
         name: 'menuOne',
         meta: {
-          title: '功能菜单三-一',
-          icon: 'menuOne',
+          title: 'router.menuOne',
+          icon: 'area',
           sid: 't-menuOne'
         }
       },
@@ -105,8 +155,8 @@ export const asyncRoutes = [
         component: () => import('@/views/ThirdMenu/menuTwo.vue'),
         name: 'menuTwo',
         meta: {
-          title: '功能菜单三-二',
-          icon: 'menuTwo',
+          title: 'router.menuTwo',
+          icon: 'location',
           sid: 't-menuTwo'
         }
       }

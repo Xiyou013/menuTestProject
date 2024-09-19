@@ -5,37 +5,17 @@ import { getUserData } from '@/api/user.js'
 import { menu } from 'verdaccio-demo-publish'
 
 const states = {
-  name: '',
-  // 菜单路由
-  dirs: [], // 目录级别数组，包含菜单级别数组
-  permissions: [], // 按钮级别数组
-  addRoutes: [],
-  permissionRoutes: []
+  permissionsMenu: [] // 处理好格式的菜单数据，用于接口权限树上传，包含路由和按钮两类
 }
 
 const mutations = {
-  SET_NAME: (state, name) => {
-    state.name = name
+  SET_PERMISSIONSMENU: (state, permissionsMenu) => {
+    state.permissionsMenu = permissionsMenu
+    console.log('state.permissionsMenu', state.permissionsMenu);
   },
-  SET_DIRS: (state, dirs) => {
-    state.dirs = dirs
-  },
-  SET_PERMISSIONS: (state, perms) => {
-    state.permissions = perms
-  },
-  SET_ROUTES: (state, routes) => {
-    state.addRoutes = routes
-    state.routes = constantRoutes.concat(routes)
-    console.log('state.routes', state.routes)
-    console.log('constantRoutes', constantRoutes)
-  },
-  SET_PERMISSION_ROUTES: (state, routes) => {
-    state.permissionRoutes = routes
-    let dNames = localStorage.getItem('menuList').split(',')
-    state.permissionRoutes = menu.getSetPermissionRoutes(routes, constantRoutes, dNames)
-    console.info('SET_PERMISSION_ROUTES：', constantRoutes, state.permissionRoutes)
-  }
 }
+
+
 
 const actions = {
   // user login
@@ -43,38 +23,28 @@ const actions = {
     console.log('menu/login', userInfo)
     const { account, password } = userInfo
     return new Promise((resolve, reject) => {
+      // 拿传过来的值，调用mock，去本地接口数据筛选获取
       getUserData({ account: account.trim(), password })
-        .then((response) => {
-          const resule = response.data
+        .then(async (response) => {
+          const resule = response.data.data
           let resMsg = {}
-          console.log('response', response);
-          if (resule.code === 0) {
+          console.log('response--1111', response);
+          if (response.data.code === 0) {
             console.log('登录成功', resule)
-            // commit('SET_TOKEN', response.data.token) // 存储token
-            //   // 存储账户信息
-            commit('SET_NAME', resule.name)
-            // 菜单和按钮数据
-            // const { menuArr, btnArr } = formatMenuAndBtn(resule.data.roles)
-            // let menuList = [...new Set(menuArr)]
-            // let btnList = [...new Set(btnArr)]
-            // console.log('用户菜单名称列表,按钮名称列表', menuList, btnList)
-            // commit('SET_PERMISSIONS', btnList)
-            // localStorage.setItem('menuList', menuList)
-            // localStorage.setItem('btnList', btnList)
-            // localStorage.setItem('isLogin', true)
-            const data = menu.onLocStorageMenuInfo(resule.data.roles)
-            localStorage.setItem('userId', resule.data.id)
-            let accessedRoutes = []
-            accessedRoutes = menu.filterAsyncRoutes(asyncRoutes, data.menuList) || []
-            console.log('路由列表', accessedRoutes)
-            commit('SET_ROUTES', accessedRoutes)
-            commit('SET_PERMISSION_ROUTES', accessedRoutes)
-            commit('SET_DIRS', menuList)
-            accessedRoutes.forEach((element) => {
-              router.addRoute(element)
-            })
+            // {异步路由，同步路由，接口返回的权限数据，返回的前端权限，路由对象}
+            let params = { asyncRoutes, constantRoutes, resule, roles: resule.roles, router }
+            console.log('resule', resule);
+            // const menuList = [...constantRoutes, ...asyncRoutes]
+            // console.log('99999999');
+            // let permissionsMenu = await menu.store.dispatch('menu/formatRouter', menuList)
+            // commit('SET_PERMISSIONSMENU', permissionsMenu)
+            // console.log('88888888888');
+
+            // 调用插件的权限初始化函数
+            await menu.store.dispatch('menu/initialization', params)
             console.log('获取最终菜单列表', router.getRoutes())
           }
+          // 用户数据获取到后，返回数据结构体
           resMsg = {
             code: response.data.code,
             msg: response.data.message
@@ -87,24 +57,9 @@ const actions = {
         })
     })
   },
-  generateRoutes({ commit }, dirs) {
-    return new Promise((resolve) => {
-      // 1. 按钮数据
-      let btnList = localStorage.getItem('btnList').split(',')
-      commit('SET_PERMISSIONS', btnList)
-      console.info('page button permissions:', states.permissions)
-      // 2. 菜单数据
-      let dNames = localStorage.getItem('menuList').split(',')
-      // 3. 路由数据 
-      let accessedRoutes = []
-      accessedRoutes = menu.filterAsyncRoutes(asyncRoutes, dNames)
-      commit('SET_ROUTES', accessedRoutes)
-      console.info('final accessed routes: ', accessedRoutes)
-      commit('SET_PERMISSION_ROUTES', accessedRoutes)
-      // commit('SET_ROUTES', asyncRoutes)
-      resolve(accessedRoutes)
-    })
-  },
+  setPermissionsMenu({ commit }, permissionsMenu) {
+    commit('SET_PERMISSIONSMENU', permissionsMenu)
+  }
 }
 
 export default {

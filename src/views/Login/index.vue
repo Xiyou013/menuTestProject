@@ -62,7 +62,8 @@ const onLogin = () => {
               message: '登录成功',
               type: 'success'
             })
-            router.push('/home')
+            // router.push('/home')
+            router.push('/second')
           } else {
             ElMessage.error('登录失败，原因：' + val.msg)
           }
